@@ -1,7 +1,7 @@
-function mostrarProductosConGrid(productos) {
-    divProductos.innerHTML = "";
+let grillaProductos = null;
 
-    new gridjs.Grid({
+function mostrarProductosConGrid(productos) {
+    const configuracion = {
         columns: [
             {
                 name: "Image",
@@ -37,5 +37,17 @@ function mostrarProductosConGrid(productos) {
         pagination: {
             limit: 5
         }
-    }).render(divProductos);
+    };
+
+    if (grillaProductos === null) {
+        // La primera vez limpio el contenedor para que GridJS pueda renderizar
+        divProductos.innerHTML = "";
+
+        grillaProductos = new gridjs.Grid(configuracion);
+        grillaProductos.render(divProductos);
+    } else {
+        // Las siguientes veces ya no hago render de cero,
+        // solamente actualizo la grilla existente
+        grillaProductos.updateConfig(configuracion).forceRender();
+    }
 }
